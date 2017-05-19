@@ -16,5 +16,8 @@
     "url": "https://github.com/jrmykolyn/sfco-timestamper/issues"
   },
   "homepage": "https://github.com/jrmykolyn/sfco-timestamper#readme",
-  "preferGlobal": true
+  "preferGlobal": true,
+  "dependencies": {
+    "sfco-literati": "^1.0.3"
+  }
 }
