@@ -15,5 +15,6 @@
   "bugs": {
     "url": "https://github.com/jrmykolyn/sfco-timestamper/issues"
   },
-  "homepage": "https://github.com/jrmykolyn/sfco-timestamper#readme"
+  "homepage": "https://github.com/jrmykolyn/sfco-timestamper#readme",
+  "preferGlobal": true
 }
