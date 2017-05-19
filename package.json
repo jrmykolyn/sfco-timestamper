@@ -1,0 +1,19 @@
+{
+  "name": "sfco-timestamper",
+  "version": "0.0.0",
+  "description": "## About",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jrmykolyn/sfco-timestamper.git"
+  },
+  "author": "Jesse R Mykolyn",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jrmykolyn/sfco-timestamper/issues"
+  },
+  "homepage": "https://github.com/jrmykolyn/sfco-timestamper#readme"
+}
