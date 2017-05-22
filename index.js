@@ -90,7 +90,7 @@ literati.read( `${os.homedir()}/${GLOBAL_CONFIG}` )
 	.then( ( data ) => { return decoder.write( data ); } )
 	.then( ( data ) => { return JSON.parse( data ); } )
 	.then( ( data ) => {
-		// Update interval vars. with values exstracted from config.
+		// Update interval vars. with values extracted from config.
 		REPO_PATH = ( data.repoPath && typeof data.repoPath === 'string' ) ? data.repoPath : REPO_PATH;
 		DUMP_FILE = ( data.dumpFile && typeof data.dumpFile === 'string' ) ? data.dumpFile : DUMP_FILE;
 
