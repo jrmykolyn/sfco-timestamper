@@ -16,8 +16,6 @@ var literati = require( 'sfco-literati' );
 // Project
 const timestamper = require( './lib/timestamper' );
 const CONFIG = require( './config' )
-const DATA = require( './data' );
-const MESSAGES = DATA.MESSAGES;
 
 // --------------------------------------------------
 // DECLARE VARS
@@ -28,20 +26,6 @@ const ARGS = process.argv.slice( 2 );
 var GLOBAL_CONFIG = CONFIG.configFile;
 var REPO_PATH = CONFIG.repoPath;
 var DUMP_FILE = CONFIG.dumpFile;
-
-// --------------------------------------------------
-// DECLARE FUNCTIONS
-// --------------------------------------------------
-function logMsg( type, key ) {
-	type = ( type && typeof type === 'string' ) ? type : 'error';
-	key = ( key && typeof key === 'string' ) ? key : 'default';
-
-	try {
-		console.log( MESSAGES[ type ][ key ] );
-	} catch ( err ) {
-		console.log( 'Whoops! Something went REALLY wrong!' );
-	}
-}
 
 // --------------------------------------------------
 // INIT
@@ -109,7 +93,7 @@ timestamper.init( `${os.homedir()}/${GLOBAL_CONFIG}` )
 		} )
 	} )
 	.then( ( output ) => {
-		logMsg( 'process', 'success' );
+		timestamper.log( 'process', 'success' );
 		console.log( output );
 	} )
 	.catch(
@@ -117,7 +101,7 @@ timestamper.init( `${os.homedir()}/${GLOBAL_CONFIG}` )
 			if ( err.message ) {
 				console.log( err.message );
 			} else {
-				logMsg( 'error', 'default' );
+				timestamper.log( 'error', 'default' );
 			}
 		}
 	);
