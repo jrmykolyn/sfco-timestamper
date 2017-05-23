@@ -32,17 +32,6 @@ var DUMP_FILE = CONFIG.dumpFile;
 // --------------------------------------------------
 // DECLARE FUNCTIONS
 // --------------------------------------------------
-function parsePathStr( pathStr ) {
-	if ( !pathStr || typeof pathStr !== 'string' ) {
-		return pathStr;
-	}
-
-	pathStr = ( pathStr.substring( 0, 1 ) === '~' ) ? ( `${os.homedir()}/${pathStr.substring( 1 )}`) : pathStr;
-	pathStr = path.normalize( pathStr );
-
-	return pathStr;
-}
-
 function logMsg( type, key ) {
 	type = ( type && typeof type === 'string' ) ? type : 'error';
 	key = ( key && typeof key === 'string' ) ? key : 'default';
@@ -77,7 +66,7 @@ timestamper.init( `${os.homedir()}/${GLOBAL_CONFIG}` )
 		// ...
 		return REPO_PATH;
 	} )
-	.then( ( pathStr ) => { return parsePathStr( pathStr ); } )
+	.then( ( pathStr ) => { return timestamper.resolvePath( pathStr ); } )
 	.then( ( pathStr ) => {
 		return literati.read( `${pathStr}/${DUMP_FILE}` )
 			.then(
