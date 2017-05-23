@@ -14,6 +14,7 @@ const StringDecoder = require( 'string_decoder' ).StringDecoder;
 var literati = require( 'sfco-literati' );
 
 // Project
+const timestamper = require( './lib/timestamper' );
 const CONFIG = require( './config' )
 const DATA = require( './data' );
 const MESSAGES = DATA.MESSAGES;
@@ -86,7 +87,7 @@ function logMsg( type, key ) {
 // - Append `DUMP_FILE` with message/timestamp for current day.
 // - Commit updates.
 // - Log 'success' message and git output.
-literati.read( `${os.homedir()}/${GLOBAL_CONFIG}` )
+timestamper.init( `${os.homedir()}/${GLOBAL_CONFIG}` )
 	.then( ( data ) => { return decoder.write( data ); } )
 	.then( ( data ) => { return JSON.parse( data ); } )
 	.then( ( data ) => {
