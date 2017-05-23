@@ -32,7 +32,7 @@ var DUMP_FILE = CONFIG.dumpFile;
 // --------------------------------------------------
 // - Read `.timestamperrc` config. file.
 // - Decode `Buffer` instance.
-// - Parse JSON/
+// - Parse JSON.
 // - Update `REPO_PATH` and `DUMP_FILE` vars.
 // - Parse/sanitize `pathStr`.
 // - Read `DUMP_FILE`: proceed or throw error if program already run.
@@ -43,7 +43,7 @@ timestamper.init( `${os.homedir()}/${GLOBAL_CONFIG}` )
 	.then( ( data ) => { return decoder.write( data ); } )
 	.then( ( data ) => { return JSON.parse( data ); } )
 	.then( ( data ) => {
-		// Update interval vars. with values extracted from config.
+		// Update internal vars. with values extracted from config.
 		REPO_PATH = ( data.repoPath && typeof data.repoPath === 'string' ) ? data.repoPath : REPO_PATH;
 		DUMP_FILE = ( data.dumpFile && typeof data.dumpFile === 'string' ) ? data.dumpFile : DUMP_FILE;
 
