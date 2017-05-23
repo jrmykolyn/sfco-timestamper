@@ -43,27 +43,6 @@ function parsePathStr( pathStr ) {
 	return pathStr;
 }
 
-function getDumpMsg( force ) {
-	return `${getCommitMsg( force )}\n`;
-}
-
-function getCommitMsg( force ) {
-	force = ( force === true );
-
-	if ( force ) {
-		return `${new Date().getTime()} | FORCE`;
-	} else {
-		return `${getTimestamp()} | DEFAULT`;
-	}
-}
-
-function getTimestamp() {
-	var now = new Date();
-	var today = new Date( now.getFullYear(), now.getMonth(), now.getDate() );
-
-	return today.getTime();
-}
-
 function logMsg( type, key ) {
 	type = ( type && typeof type === 'string' ) ? type : 'error';
 	key = ( key && typeof key === 'string' ) ? key : 'default';
@@ -103,7 +82,7 @@ timestamper.init( `${os.homedir()}/${GLOBAL_CONFIG}` )
 		return literati.read( `${pathStr}/${DUMP_FILE}` )
 			.then(
 				( data ) => {
-					if ( !decoder.write( data ).includes( getTimestamp() ) || ARGS.includes( '--force' ) ) {
+					if ( !decoder.write( data ).includes( timestamper.getTimestamp() ) || ARGS.includes( '--force' ) ) {
 						return pathStr;
 					} else {
 						throw new Error( 'Whoops! It looks like `timestamper` has already been invoked today. If you absolutely must pad your repo activity with another meaningless commit, add the `--force` flag.' );
@@ -116,7 +95,7 @@ timestamper.init( `${os.homedir()}/${GLOBAL_CONFIG}` )
  	} )
 	.then( ( pathStr ) => {
 		return new Promise( ( resolve, reject ) => {
-			fs.appendFile( `${pathStr}/${DUMP_FILE}`, getDumpMsg( ARGS.includes( '--force' ) ), 'utf8', ( err, data ) => {
+			fs.appendFile( `${pathStr}/${DUMP_FILE}`, timestamper.getDumpMsg( ARGS.includes( '--force' ) ), 'utf8', ( err, data ) => {
 				if ( err ) {
 					reject( err );
 				} else {
@@ -129,7 +108,7 @@ timestamper.init( `${os.homedir()}/${GLOBAL_CONFIG}` )
 		return new Promise( ( resolve, reject ) => {
 			process.chdir( path.dirname( pathStr ) );
 
-			var commitMsg = getCommitMsg( ARGS.includes( '--force' ) );
+			var commitMsg = timestamper.getCommitMsg( ARGS.includes( '--force' ) );
 
 			exec( `git add ${DUMP_FILE} && git commit -m "${commitMsg}"`, ( err, stdout, stderr ) => {
 				if ( err ) {
