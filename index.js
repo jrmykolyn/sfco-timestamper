@@ -25,6 +25,7 @@ const ARGS = process.argv.slice( 2 );
 
 var GLOBAL_CONFIG = CONFIG.configFile;
 var REPO_PATH = CONFIG.repoPath;
+var REPO_NAME = CONFIG.repoName;
 var DUMP_FILE = CONFIG.dumpFile;
 
 // --------------------------------------------------
@@ -45,14 +46,15 @@ timestamper.init( `${os.homedir()}/${GLOBAL_CONFIG}` )
 	.then( ( data ) => {
 		// Update internal vars. with values extracted from config.
 		REPO_PATH = ( data.repoPath && typeof data.repoPath === 'string' ) ? data.repoPath : REPO_PATH;
+		REPO_NAME = ( data.repoName && typeof data.repoName === 'string' ) ? data.repoName : REPO_NAME;
 		DUMP_FILE = ( data.dumpFile && typeof data.dumpFile === 'string' ) ? data.dumpFile : DUMP_FILE;
 
 		// ...
-		return REPO_PATH;
+		return `${REPO_PATH}/${REPO_NAME}/${DUMP_FILE}`;
 	} )
 	.then( ( pathStr ) => { return timestamper.resolvePath( pathStr ); } )
 	.then( ( pathStr ) => {
-		return literati.read( `${pathStr}/${DUMP_FILE}` )
+		return literati.read( pathStr )
 			.then(
 				( data ) => {
 					if ( !decoder.write( data ).includes( timestamper.getTimestamp() ) || ARGS.includes( '--force' ) ) {
@@ -62,17 +64,17 @@ timestamper.init( `${os.homedir()}/${GLOBAL_CONFIG}` )
 					}
 				},
 				( err ) => {
-					throw new Error( `Whoops! ${pathStr} directory either doesn't exist, or doesn't contain ${DUMP_FILE}. Please add this file before re-invoking the \`timestamper\` command.` );
+					throw new Error( `Whoops! ${pathStr} directory either doesn't exist, or doesn't contain ${DUMP_FILE}. Please ensure that ${path.dirname( pathStr )} exists, is a directory, and contains the ${DUMP_FILE} file before invoking the \`timestamper\` command.` );
 				}
 			)
  	} )
 	.then( ( pathStr ) => {
 		return new Promise( ( resolve, reject ) => {
-			fs.appendFile( `${pathStr}/${DUMP_FILE}`, timestamper.getDumpMsg( ARGS.includes( '--force' ) ), 'utf8', ( err, data ) => {
+			fs.appendFile( pathStr, timestamper.getDumpMsg( ARGS.includes( '--force' ) ), 'utf8', ( err, data ) => {
 				if ( err ) {
 					reject( err );
 				} else {
-					resolve( `${pathStr}/${DUMP_FILE}` );
+					resolve( pathStr );
 				}
 			} )
 		} );
