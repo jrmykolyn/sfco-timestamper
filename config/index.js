@@ -1,6 +1,6 @@
 module.exports = {
-	configFile: '.timestamperrc',
-	repoPath: '~',
-	repoName: 'timestamper-dump',
-	dumpFile: 'DUMP.md'
+	defaults: {
+		repoPath: '~/timestamper-dump',
+		dumpFile: 'DUMP.md'
+	},
 };

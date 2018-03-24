@@ -7,13 +7,16 @@
 // --------------------------------------------------
 // IMPORT MODULES
 // --------------------------------------------------
+// Vendor
+const meow = require( 'meow' );
+
 // Project
 const timestamper = require( './lib/timestamper' );
 
 // --------------------------------------------------
 // DECLARE VARS
 // --------------------------------------------------
-const ARGS = process.argv.slice( 2 );
+const cli = meow();
 
 // --------------------------------------------------
 // INIT
@@ -28,17 +31,34 @@ const ARGS = process.argv.slice( 2 );
 // - Commit updates.
 // - Log 'success' message and git output.
 /// TODO[@jrmykolyn] - Move comments into `lib/timestamper.js`.
-timestamper.init( ARGS )
-	.then( ( output ) => {
-		console.log( timestamper.getMsg( 'process', 'success' ) );
-		console.log( output );
-	} )
-	.catch(
-		( err ) => {
-			if ( err.message ) {
-				console.log( err.message );
+/// TODO: This is gnarly. Make it... not?
+if ( cli.flags.init ) {
+	timestamper.init()
+		.then( ( config ) => {
+			if ( !Object.keys( config.data ).length ) {
+				console.log( 'Successfully initialized `timestamper`:' );
 			} else {
-				console.log( timestamper.getMsg( 'error', 'default' ) );
+				console.log( 'Looks like `timestamper` has already been initialized. To configure, adjust the file below:' );
 			}
-		}
-	);
+
+			console.log( config.path );
+		} )
+		.catch( ( err ) => {
+			console.log( 'Whoops! Something went wrong!' );
+		} );
+} else {
+	timestamper.run( cli.input, cli.flags )
+		.then( ( output ) => {
+			console.log( timestamper.getMsg( 'process', 'success' ) );
+			console.log( output );
+		} )
+		.catch(
+			( err ) => {
+				if ( err.message ) {
+					console.log( err.message );
+				} else {
+					console.log( timestamper.getMsg( 'error', 'default' ) );
+				}
+			}
+		);
+}
