@@ -21,16 +21,6 @@ const cli = meow();
 // --------------------------------------------------
 // INIT
 // --------------------------------------------------
-// - Read `.timestamperrc` config. file.
-// - Decode `Buffer` instance.
-// - Parse JSON.
-// - Update `REPO_PATH` and `DUMP_FILE` vars.
-// - Parse/sanitize `pathStr`.
-// - Read `DUMP_FILE`: proceed or throw error if program already run.
-// - Append `DUMP_FILE` with message/timestamp for current day.
-// - Commit updates.
-// - Log 'success' message and git output.
-/// TODO[@jrmykolyn] - Move comments into `lib/timestamper.js`.
 /// TODO: This is gnarly. Make it... not?
 if ( cli.flags.init ) {
 	timestamper.init()
