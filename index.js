@@ -33,11 +33,11 @@ if ( cli.flags.init ) {
 
 			console.log( config.path );
 		} )
-		.catch( ( err ) => {
+		.catch( () => {
 			console.log( 'Whoops! Something went wrong!' );
 		} );
 } else {
-	timestamper.run( cli.input, cli.flags )
+	timestamper.run( cli.flags )
 		.then( ( output ) => {
 			console.log( timestamper.getMsg( 'process', 'success' ) );
 			console.log( output );
