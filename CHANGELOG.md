@@ -3,6 +3,14 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/) and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [Unreleased]
+### Added
+- Add support for `--init` flag.
+- Allow users to override default configuration.
+
+### Changed
+- Replace manual argument parsing with `meow`.
+
 ## [0.1.0] - 2017-05-24
 ### Added
 - Initialized project as `npm` package.
