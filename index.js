@@ -25,7 +25,7 @@ const cli = meow();
 if ( cli.flags.init ) {
 	timestamper.init()
 		.then( ( config ) => {
-			if ( !Object.keys( config.data ).length ) {
+			if ( !config.alreadyInitialized ) {
 				console.log( 'Successfully initialized `timestamper`:' );
 			} else {
 				console.log( 'Looks like `timestamper` has already been initialized. To configure, adjust the file below:' );
