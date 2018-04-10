@@ -12,6 +12,7 @@ const meow = require( 'meow' );
 
 // Project
 const timestamper = require( './lib/timestamper' );
+const { getMsg } = timestamper;
 
 // --------------------------------------------------
 // DECLARE VARS
@@ -21,34 +22,26 @@ const cli = meow();
 // --------------------------------------------------
 // INIT
 // --------------------------------------------------
-/// TODO: This is gnarly. Make it... not?
+// Handle initialization.
 if ( cli.flags.init ) {
 	timestamper.init()
 		.then( ( config ) => {
-			if ( !config.alreadyInitialized ) {
-				console.log( 'Successfully initialized `timestamper`:' );
-			} else {
-				console.log( 'Looks like `timestamper` has already been initialized. To configure, adjust the file below:' );
-			}
-
+			console.log( !config.alreadyInitialized ? getMsg( 'init', 'success' ) : getMsg( 'init', 'duplicate' ) );
 			console.log( config.path );
 		} )
 		.catch( () => {
-			console.log( 'Whoops! Something went wrong!' );
+			console.log( getMsg( 'error', 'default' ) );
 		} );
+// Handle normal execution/invocation.
 } else {
 	timestamper.run( cli.flags )
 		.then( ( output ) => {
-			console.log( timestamper.getMsg( 'process', 'success' ) );
+			console.log( getMsg( 'process', 'success' ) );
 			console.log( output );
 		} )
 		.catch(
 			( err ) => {
-				if ( err.message ) {
-					console.log( err.message );
-				} else {
-					console.log( timestamper.getMsg( 'error', 'default' ) );
-				}
+				console.log( err.message || getMsg( 'error', 'default' ) );
 			}
 		);
 }

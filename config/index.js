@@ -4,6 +4,10 @@ module.exports = {
 		dumpFile: 'DUMP.md'
 	},
 	messages: {
+		init: {
+			success: 'Successfully initialized `timestamper`.',
+			duplicate: 'Looks like `timestamper` has already been initialized. To configure, adjust the file below.',
+		},
 		process: {
 			success: 'Yay! You\'ve successfully padded your repo contributions!'
 		},
